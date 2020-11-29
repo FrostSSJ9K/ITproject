@@ -1,0 +1,1 @@
+web: gunicorn NaijaLatest.wsgi --log-file -

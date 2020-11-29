@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>toochi</title>
+     <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.min.css' %}"/>
+ <!--<link rel="stylesheet" href="{% static 'bootstrap4/vendor/bootstrap/css/bootstrap.min.css'  %}">--->
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap-grid.css' %}"/>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css"
+      integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
+
+</head>
+<body>
+<div class="container">
+    <header class="container">
+        <div class="well"<h1 class="text-center">This the header site</h1>
+    </header>
+    <section class="container">
+        <div class="row">
+            <div class="col-md-9">
+
+                <div class="infinite-container">
+    {% for noo in newss %}
+      <div class="infinite-item">{{ noo.title }}</div>
+    {% endfor %}
+  </div>
+
+  {% if newss.has_next %}
+    <a class="infinite-more-link" href="?page={{ newss.next_page_number }}">More</a>
+  {% endif %}
+
+
+            </div>
+        </div>
+    </section>
+
+    <footer class="container">
+      <div  style="background-color: red">
+          this is footer
+      </div>
+    </footer>
+</div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+<!---<script src="{% static 'bootstrap4/vendor/bootstrap/js/bootstrap.min.js' %}"></script>--->
+
+<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+<script type="text/javascript" src="{% static 'sticky-sidebar (1)/ResizeSensor.js' %}"></script>
+<script type="text/javascript" src="{% static 'sticky-sidebar (1)/theia-sticky-sidebar.min.js' %}"></script>
+<script src="{% static 'imakewebthings-waypoints-34d9f6d/lib/jquery.waypoints.min.js' %}"></script>
+<!---<script src="{% static 'imakewebthings-waypoints-34d9f6d/lib/shortcuts/infinite.min.js' %}"></script>--->
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#cont').theiaStickySidebar({
+
+        });
+
+    })
+</script>
+ <script>
+    var infinite = new Waypoint.Infinite({
+      element: $('.infinite-container')[0]
+    });
+
+
+  </script>
+
+</html>

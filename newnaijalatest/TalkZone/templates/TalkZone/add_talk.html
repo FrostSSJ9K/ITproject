@@ -1,0 +1,44 @@
+{% extends 'backend/base.html' %}
+{% block title %}ADD NEWS {% endblock %}
+{% block body %}
+
+    {% load static %}
+    <div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-3">
+            {% for message in messages %}
+                <div class="alert {{ message.tags }} alert-dismissible" role="alert" style="background-color: black;
+                 box-shadow: 10px 10px 10px;color:darkgray">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                    <p style="color:white">{{ message }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+        <div class="row">
+            <div class="col-md-10 offset-1">
+                <div class="card">
+                    <div class="card-header">
+                        <H6 style="color:darkred"><strong style="color: #0e0e0e">Note:</strong> subtitle should not be grater than 1000 characters and sub-body should not be graeter than 20000 characters.</H6>
+                        <hr>
+                    <h3 style="text-align: center">Post Talk Zone</h3>
+                    </div>
+                     <div class="card-body">
+                                <form class="form-group" method="post"  enctype="multipart/form-data">
+                             {% csrf_token %}
+                                    {{ form.media }}
+                                    {{ form }}
+                                    {{form.errors }}
+                                    <div class="form-group col-sm-12" style="margin-top: 2%">
+                                        <button class="btn btn-success pull-right">Submit</button>
+                                    </div>
+                                </form>
+
+                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'backend/base.html' %}
+ {% block title %}User Dashboard{% endblock %}
+
+{% block body %}
+{% load static %}
+    <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+    <!---<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" >--->
+<link rel="stylesheet" href="{% static 'datatable/Buttons-1.5.2/css/buttons.dataTables.min.css' %}" >
+<div class="container">
+<div class="row">
+    <div class="col-sm-6 offset-3" style="border-radius: 5px; background-color:black;">
+        <h3 style="color: white;text-align: center">EDIT MIXTAPE</h3>
+    </div>
+</div>
+<div class="row" style="margin-top: 2%;box-shadow: 10px 10px 10px">
+
+            {% if unpublished%}
+                <table  id="edit_mixtape" class="display" style="width:100%">
+                <thead>
+                <tr>
+                    <th>Tape Name</th>
+                    <th>Dj Description</th>
+                    <th>Date</th>
+                    <th>Poster</th>
+                    <th>Edit</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for unpublisheds in unpublished  %}
+                    <tr>
+                    <td>{{ unpublisheds.tape_name | safe}}</td>
+                     <td>{{ unpublisheds.dj_description | safe }}</td>
+                    <td>{{unpublisheds.uploaded_at | date  }}</td>
+                    <td>{{ unpublisheds.user.username}}</td>
+                    <td><a href="{% url 'Music:Detailview' unpublisheds.pk %}" class="btn btn-dark btn-sm" role="button"><i class="far fa-edit"></i></a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+                </table>
+
+        {% else %}
+    <P>no data found</P>
+{% endif %}
+        </div>
+</div>
+     <script src="{% static 'datatable/DataTables-1.10.18/js/jquery.dataTables.min.js' %}" integrity="" ></script>
+    <script src="{% static 'datatable/DataTables-1.10.18/js/dataTables.bootstrap.min.js' %}" integrity="" ></script>
+    <script src="{% static 'datatable/DataTables-1.10.18/js/dataTables.bootstrap4.min.js' %}" integrity="" ></script>
+    <script src="{% static 'datatable/Buttons-1.5.2/js/dataTables.buttons.min.js' %}" integrity=""  ></script>
+    <script src="{% static 'datatable/Buttons-1.5.2/js/buttons.flash.min.js' %}" integrity=""  ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js" integrity=""  ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js" integrity=""  ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js" integrity=""  ></script>
+    <script src="{% static 'datatable/Buttons-1.5.2/js/buttons.html5.min.js' %}" integrity="" ></script>
+   <script src="{% static 'datatable/Buttons-1.5.2/js/buttons.print.min.js' %}" integrity="" ></script>
+
+
+  <script type="text/javascript">
+      $(document).ready(function() {
+    $('#edit_mixtape').DataTable( {
+        dom: 'Bfrtip',
+        buttons: [
+            { extend:'copy', attr: { id: 'allan' } }, 'csv', 'excel', 'pdf', 'print'
+        ]
+
+    } );
+} );
+  </script>
+{% endblock %}

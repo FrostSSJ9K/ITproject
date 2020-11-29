@@ -1,0 +1,421 @@
+{% extends 'Frontend/base.html' %}
+<title> {% block title %}Home{% endblock %}</title>
+
+     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css"
+          integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+
+{% block body %}
+    <body>
+  {% load static %}
+
+<div class="container" style="background-color:white; margin-top: 0.5%">
+<!----message------->
+<div class="row">
+    <div class="col-lg-10">
+        {% for message in messages %}
+        <div class="alert {{ message.tags }} alert-dismissible" role="alert" style="background-color: black; box-shadow: 10px 10px 10px;color:darkgray">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    <p style="color:white">{{ message }}</p>
+        </div>
+            {% endfor %}
+    </div>
+</div>
+<!-----trending---->
+<div class="row" style="margin-right: -20px; margin-left: -20px">
+    <div class="col-lg-12 " style="text-align: center">
+        <strong style="color: #003366"><i class="fas fa-angle-double-left" style="color:lightgrey"></i>Trending<i class="fas fa-angle-double-right" style="color: lightgrey"></i></strong>
+    </div>
+</div>
+    <div class="row">
+    <!--News---->
+  <div class="col-md-4 bg-danger" style="padding-right: 0px;padding-left: 0px" >
+      <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel" data-interval="19000">
+          <div class="carousel-inner">
+              {% for firstnews in first_slide %}
+                <div class="carousel-item active">
+                  <a href="{% url 'News:display_news' firstnews.slug %}">
+                      <img src="{{ firstnews.cover_picture.url }}" class="card-img-top img-fluid" style="height: 180px; width: 1000px;">
+                  </a>
+                <div class="carousel-caption" style="padding-bottom: 0px; padding-top: 0px; bottom: 0px;left:0%; right: 0%">
+                    <a href="{% url 'News:display_news' firstnews.slug %}" style="text-decoration: none; color: white"><h6 style="color: white">{{ firstnews.title | safe  }}</h6></a>
+                </div>
+                </div>
+              {% endfor %}
+              {% for secondnews in second_slide %}
+                <div class="carousel-item">
+                  <a href="{% url 'News:display_news' secondnews.slug %}">
+                      <img src="{{ secondnews.cover_picture.url }}" class="card-img-top img-fluid" style="height: 180px; width: 1000px;">
+                  </a>
+                <div class="carousel-caption" style="padding-bottom: 0px; padding-top: 0px; bottom: 0px;left:0%; right: 0%">
+                    <a href="{% url 'News:display_news' secondnews.slug%}" style="text-decoration: none"><h6 style="color: white">{{ secondnews.title | safe }}</h6></a>
+                </div>
+                </div>
+               {% endfor %}
+              {% for thirdnews in third_slide %}
+                <div class="carousel-item">
+                  <a href="{% url 'News:display_news' thirdnews.slug %}">
+                      <img src="{{ thirdnews.cover_picture.url }}" class="card-img-top img-fluid" style="height: 180px; width: 1000px;">
+                  </a>
+                <div class="carousel-caption" style="padding-bottom: 0px; padding-top: 0px; bottom: 0px;left:0%; right: 0%">
+                    <a href="{% url 'News:display_news' thirdnews.slug %}" style="text-decoration: none"><h6 style="color: white">{{ thirdnews.title|safe }}</h6></a>
+                </div>
+                </div>
+              {% endfor %}
+            <!---{% for forthnews in forth %}
+              <div class="carousel-item">
+                  <a href="#">
+                      <img src="{{ forthnews.cover_image.url }}" class="card-img-top img-fluid" style="height: 180px; width: 1000px;">
+                  </a>
+                </div>
+            {% endfor %}----->
+          </div>
+      </div>
+  </div>
+    <!-----video---->
+    <div class="col-md-4 bg-primary" style="padding-right: 0px;padding-left: 0px">
+        <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel" data-interval="18500">
+          <div class="carousel-inner">
+              {% for firstvideo in first %}
+                <div class="carousel-item active">
+                  <a href="{% url 'Music:video_download' firstvideo.slug%}">
+                      <img src="{{ firstvideo.music.cover_image.url }}" class="card-img-top img-fluid" style="height: 180px; width: 1000px;">
+                  </a>
+                <div class="carousel-caption" style="padding-bottom: 0px; padding-top: 0px; bottom: 0px;left:0%; right: 0%">
+                    <a href="{% url 'Music:video_download' firstvideo.slug%}" style="text-decoration: none"><h6 style="color: white">{{ firstvideo.music.song_title }}</h6>
+                        <h6 style="color: white">Video</h6></a>
+                </div>
+                </div>
+              {% endfor %}
+              {% for secondvideo in second %}
+                <div class="carousel-item">
+                  <a href="{% url 'Music:video_download' secondvideo.slug%}">
+                      <img src="{{ secondvideo.music.cover_image.url }}" class="card-img-top img-fluid" style="height: 180px; width: 1000px;">
+                  </a>
+                <div class="carousel-caption" style="padding-bottom: 0px; padding-top: 0px; bottom: 0px;left:0%; right: 0%">
+                    <a href="{% url 'Music:video_download' secondvideo.slug%}" style="text-decoration: none"><h6 style="color: white">{{ secondvideo.music.song_title }}</h6>
+                    <h6 style="color: white">Video</h6></a>
+                </div>
+                </div>
+               {% endfor %}
+              {% for thirdvideo in third %}
+                <div class="carousel-item">
+                  <a href="{% url 'Music:video_download' thirdvideo.slug%}">
+                      <img src="{{ thirdvideo.music.cover_image.url }}" class="card-img-top img-fluid" style="height: 180px; width: 1000px;">
+                  </a>
+                <div class="carousel-caption" style="padding-bottom: 0px; padding-top: 0px; bottom: 0px;left:0%; right: 0%">
+                    <a href="{% url 'Music:video_download' thirdvideo.slug%}"  style="text-decoration: none"><h6 style="color: white">{{ thirdvideo.music.song_title }}</h6>
+                    <h6 style="color: white">Video</h6></a>
+                </div>
+                </div>
+              {% endfor %}
+            <!---{% for forthnews in forth %}
+              <div class="carousel-item">
+                  <a href="#">
+                      <img src="{{ forthnews.cover_image.url }}" class="card-img-top img-fluid" style="height: 180px; width: 1000px;">
+                  </a>
+                </div>
+            {% endfor %}---->
+          </div>
+      </div>
+    </div>
+    <!----Gist----->
+    <div class="col-md-4 bg-success" style="padding-left: 0px; padding-right: 0px" >
+        <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel" data-interval="17000">
+          <div class="carousel-inner">
+              {% for firstgist in slideone %}
+                <div class="carousel-item active">
+                  <a href="{% url 'Gist:display_gist' firstgist.slug %}">
+                      <img src="{{ firstgist.cover_image.url }}" class="card-img-top img-fluid" style="height: 180px; width: 1000px;">
+                  </a>
+                <div class="carousel-caption" style="padding-bottom: 0px; padding-top: 0px; bottom: 0px;left:0%; right: 0%">
+                    <a href="{% url 'Gist:display_gist' firstgist.slug %}" style="text-decoration: none"><h6 style="color: white">{{ firstgist.title|safe }}</h6></a>
+                </div>
+                </div>
+              {% endfor %}
+              {% for secondgist in slidetwo %}
+                <div class="carousel-item">
+                  <a href="{% url 'Gist:display_gist' secondgist.slug %}">
+                      <img src="{{ secondgist.cover_image.url }}" class="card-img-top img-fluid" style="height: 180px; width: 1000px;">
+                  </a>
+                <div class="carousel-caption" style="padding-bottom: 0px; padding-top: 0px; bottom: 0px;left:0%; right: 0%">
+                    <a href="{% url 'Gist:display_gist' secondgist.slug %}" style="text-decoration: none"><h6 style="color: white">{{ secondgist.title |safe }}</h6></a>
+                </div>
+                </div>
+               {% endfor %}
+              {% for thirdgist in slidethree %}
+                <div class="carousel-item">
+                  <a href="{% url 'Gist:display_gist' thirdgist.slug %}">
+                      <img src="{{ thirdgist.cover_image.url }}" class="card-img-top img-fluid" style="height: 180px; width: 1000px;">
+                  </a>
+                <div class="carousel-caption" style="padding-bottom: 0px; padding-top: 0px; bottom: 0px;left:0%; right: 0%">
+                    <a href="{% url 'Gist:display_gist' thirdgist.slug %}" style="text-decoration: none"><h6 style="color: white">{{ thirdgist.title|safe }}</h6></a>
+                </div>
+                </div>
+              {% endfor %}
+            <!---{% for forthnews in forth %}
+              <div class="carousel-item">
+                  <a href="#">
+                      <img src="{{ forthnews.cover_image.url }}" class="card-img-top img-fluid" style="height: 180px; width: 1000px;">
+                  </a>
+                </div>
+            {% endfor %}---->
+          </div>
+      </div>
+    </div>
+</div>
+<div class="row" style="margin-top: 1px">
+<!----Gist----->
+
+  <div class="col-md-4 bg-danger" style="padding-left: 0px;padding-right: 0px">
+      <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel" data-interval="17000">
+      <div class="carousel-inner">
+        {% for forthgist in slidefour %}
+              <div class="carousel-item active">
+                  <a href="{% url  'Gist:display_gist' forthgist.slug %}">
+                      <img src="{{ forthgist.cover_image.url }}" class="card-img-top img-fluid" style="height: 180px; width: 1000px;">
+                  </a>
+              <div class="carousel-caption" style="padding-bottom: 0px; padding-top: 0px; bottom: 0px;left:0%; right: 0%">
+                    <a href="{% url  'Gist:display_gist' forthgist.slug %}" style="text-decoration: none"><h6 style="color: white">{{ forthgist.title |safe  }}</h6></a>
+              </div>
+              </div>
+        {% endfor %}
+        {% for fift in slidefive %}
+            <div class="carousel-item">
+                  <a href="{% url 'Gist:display_gist' fift.slug %}">
+                      <img src="{{ fift.cover_image.url }}" class="card-img-top img-fluid" style="height: 180px; width: 1000px;">
+                  </a><div class="carousel-caption" style="padding-bottom: 0px; padding-top: 0px; bottom: 0px;left:0%; right: 0%">
+                    <a href="{% url 'Gist:display_gist' fift.slug %}" style="text-decoration: none"><h6 style="color: white">{{ fift.title | safe}}</h6></a>
+              </div>
+
+            </div>
+        {% endfor %}
+        {% for sixt in slidesix %}
+            <div class="carousel-item">
+                  <a href="{% url 'Gist:display_gist' sixt.slug %}">
+                      <img src="{{ sixt.cover_image.url }}" class="card-img-top img-fluid" style="height: 180px; width: 1000px;">
+                  </a>
+            <div class="carousel-caption" style="padding-bottom: 0px; padding-top: 0px; bottom: 0px;left:0%; right: 0%">
+                    <a href="" style="text-decoration: none"><h6 style="color: white">{{ sixt.title |safe}}</h6></a>
+              </div>
+            </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+<!-----News--->
+
+    <div class="col-md-4 bg-danger" style="padding-right: 0px;padding-left: 0px" >
+      <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel" data-interval="19000">
+          <div class="carousel-inner">
+              {% for firstnews in forth_slide %}
+                <div class="carousel-item active">
+                  <a href="{% url 'News:display_news' firstnews.slug %}">
+                      <img src="{{ firstnews.cover_picture.url }}" class="card-img-top img-fluid" style="height: 180px; width: 1000px;">
+                  </a>
+                <div class="carousel-caption" style="padding-bottom: 0px; padding-top: 0px; bottom: 0px;left:0%; right: 0%">
+                    <a href="{% url 'News:display_news' firstnews.slug %}" style="text-decoration: none"><h6 style="color: white">{{ firstnews.title|safe }}</h6></a>
+                </div>
+                </div>
+              {% endfor %}
+              {% for secondnews in fifth %}
+                <div class="carousel-item">
+                  <a href="{% url 'News:display_news' secondnews.slug %}">
+                      <img src="{{ secondnews.cover_picture.url }}" class="card-img-top img-fluid" style="height: 180px; width: 1000px;">
+                  </a>
+                <div class="carousel-caption" style="padding-bottom: 0px; padding-top: 0px; bottom: 0px;left:0%; right: 0%">
+                    <a href="{% url 'News:display_news' secondnews.slug%}" style="text-decoration: none"><h6 style="color: white">{{ secondnews.title|safe }}</h6></a>
+                </div>
+                </div>
+               {% endfor %}
+              {% for thirdnews in sixth %}
+                <div class="carousel-item">
+                  <a href="{% url 'News:display_news' thirdnews.slug %}">
+                      <img src="{{ thirdnews.cover_picture.url }}" class="card-img-top img-fluid" style="height: 180px; width: 1000px;">
+                  </a>
+                <div class="carousel-caption" style="padding-bottom: 0px; padding-top: 0px; bottom: 0px;left:0%; right: 0%">
+                    <a href="{% url 'News:display_news' thirdnews.slug %}" style="text-decoration: none"><h6 style="color: white">{{ thirdnews.title|safe }}</h6></a>
+                </div>
+                </div>
+              {% endfor %}
+            <!---{% for forthnews in forth %}
+              <div class="carousel-item">
+                  <a href="#">
+                      <img src="{{ forthnews.cover_image.url }}" class="card-img-top img-fluid" style="height: 180px; width: 1000px;">
+                  </a>
+                </div>
+            {% endfor %}----->
+          </div>
+      </div>
+  </div>
+<!---Song-->
+
+    <div class="col-md-4 bg-primary" style="padding-left: 0px;padding-right: 0px">
+        <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel" data-interval="18500">
+  <div class="carousel-inner">
+     {% for firstsong in one %}
+         <div class="carousel-item active">
+                  <a href="{% url 'Music:song_download' firstsong.slug %}">
+                      <img src="{{ firstsong.cover_image.url }}" class="card-img-top img-fluid" style="height: 180px; width: 1000px;">
+                  </a>
+         <div class="carousel-caption" style="padding-bottom: 0px; padding-top: 0px; bottom: 0px;left:0%; right: 0%">
+                    <a href="{% url 'Music:song_download' firstsong.slug %}"   style="text-decoration: none"><h6 style="color: white">{{ firstsong.music.song_title }}</h6>
+                    <h6 style="color: white">Song</h6></a>
+         </div>
+         </div>
+     {% endfor %}
+    {% for secongsong in two %}
+        <div class="carousel-item">
+            <a href="{% url 'Music:song_download' secongsong.slug %}">
+                <img src="{{ secongsong.cover_image.url }}" class="card-img-top img-fluid" style="height: 180px; width: 1000px;">
+            </a>
+        <div class="carousel-caption" style="padding-bottom: 0px; padding-top: 0px; bottom: 0px;left:0%; right: 0%">
+                    <a href="{% url 'Music:song_download' secongsong.slug %}" style="text-decoration: none"><h6 style="color: white">{{ secongsong.music.song_title }}</h6>
+                    <h6 style="color: white">Song</h6></a>
+        </div>
+        </div>
+    {% endfor %}
+    {% for thirdsong in three %}
+            <div class="carousel-item">
+                  <a href="{% url 'Music:song_download' thirdsong.slug %}">
+                      <img src="{{ thirdsong.cover_image.url }}" class="card-img-top img-fluid" style="height: 180px; width: 1000px;">
+                  </a>
+            <div class="carousel-caption" style="padding-bottom: 0px; padding-top: 0px; bottom: 0px;left:0%; right: 0%">
+                    <a href="{% url 'Music:song_download' thirdsong.slug %}" style="text-decoration: none"><h6 style="color: white">{{ thirdsong.music.song_title }}</h6>
+                    <h6 style="color: white">Song</h6></a>
+            </div>
+            </div>
+        {% endfor %}
+  </div>
+</div>
+    </div>
+</div>
+<!-----Advert-------->
+<div class="row" style="margin-top: 2%">
+    <img src="{% static 'image/adon1.fw.png' %}" alt="Third Slide" class="img-fluid"/>
+</div>
+<div class="row">
+<strong style="color:#003366">Songs</strong>
+</div>
+<div class="row">
+    {% for songs in  first_ten_song %}
+                <div class="col-md-3 " style="padding-left: 1px;padding-right: 1px">
+                    <div class="card">
+                        <a href="{% url 'Music:song_download' songs.slug %}">
+                            <img src="{{ songs.cover_image.url }}" class="img-fluid" style="height: 160px; width: 1000px;">
+                        </a>
+                        <div class="carousel-caption" style="padding-bottom: 0px; padding-top: 0px; bottom: 0px;left:0%; right: 0%">
+                            <a href="{% url 'Music:song_download' songs.slug %}" style="color: #eeeeee"><h6 style="font-size: 13px">{{ songs.music.song_title }}</h6>
+                            </a>
+                        </div>
+
+                    </div>
+
+                </div>
+                {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+            {% endfor %}
+
+</div>
+<!------Video--->
+<div class="row">
+<strong style="color:#003366">Videos</strong>
+</div>
+<div class="row">
+    {% for video in  videos %}
+                <div class="col-md-3 " style="padding-left: 1px;padding-right: 1px">
+                    <div class="card">
+                        <a href="{% url 'Music:video_download' video.slug%}">
+                            <img src="{{ video.music.cover_image.url }}" class="img-fluid" style="height: 160px; width: 1000px;">
+                        </a>
+                        <div class="carousel-caption" style="padding-bottom: 0px; padding-top: 0px; bottom: 0px;left:0%; right: 0%">
+                            <a href="" style="color: #ECECFB"><h6 style="font-size: 13px">{{video.music.song_title }}</h6></a>
+                        </div>
+
+                    </div>
+
+                </div>
+                {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+            {% endfor %}
+
+</div>
+<!----Advert----------->
+<div class="row" style="margin-top: 2%">
+    <img src="{% static 'image/adon2.fw.png' %}" alt="Third Slide" class="img-fluid"/>
+</div>
+<!----News----------->
+<div class="row">
+  <strong style="color:#003366">News</strong>
+</div>
+<div class="row">
+    {% for newss in  news %}
+                <div class="col-md-4 " style="padding-left: 1px;padding-right: 1px">
+
+                        <a href="{% url  'News:display_news' newss.slug%}">
+                            <img src="{{ newss.cover_picture.url }}" class="img-fluid" style="height: 160px; width: 1000px;">
+                        </a>
+                        <a href="{% url  'News:display_news' newss.slug%}" style="color: darkgray;">
+                            <h6>{{ newss.title | safe }}</h6>
+                        </a>
+                        <!--<div class="row">
+                            <div class="col-md-6">
+                                <a href="#" style="margin-left: 5px;color: darkgray"> <i class="fas fa-share-alt" style="color: black"></i>&nbsp;7</a>
+                            </div>
+                             <div class="col-md-6">
+                                <a href="#" style="color: darkgray"> <i class="fas fa-eye" style="color: black"></i>7</a>
+                             </div>
+
+                        </div>--->
+
+
+
+                </div>
+                {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+            {% endfor %}
+
+</div>
+<!----Gist----------->
+<div class="row">
+  <strong style="color:#003366">Gist</strong>
+</div>
+<div class="row" style="margin-top: 2px">
+    {% for gists in  gist %}
+                <div class="col-md-4 " style="padding-left: 1px;padding-right: 1px">
+
+                        <a href="{% url 'Gist:display_gist' gists.slug %}">
+                            <img src="{{ gists.cover_image.url }}" class="img-fluid" style="height: 160px; width: 1000px;">
+                        </a>
+                        <a href="{% url 'Gist:display_gist' gists.slug %}" style="color: darkgray;">
+                            <h6 style="font-family:'Times New Roman'; ">{{ gists.title | safe }}</h6>
+                        </a>
+                        <!--<div class="row">
+                            <div class="col-md-6">
+                                <a href="#" style="margin-left: 5px;color: darkgray"> <i class="fas fa-share-alt" style="color: black"></i>&nbsp;7</a>
+                            </div>
+                             <div class="col-md-6">
+                                <a href="#" style="color: darkgray"> <i class="fas fa-eye" style="color: black"></i>7</a>
+                             </div>
+
+                        </div>--->
+
+
+
+                </div>
+                {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+            {% endfor %}
+
+</div>
+
+</div>
+
+{% endblock %}
+{% block js %}
+    <script>
+     $(function () {
+         $('carouselExampleSlidesOnly').carousel({
+             interval: 120000
+         });
+     });
+    </script>
+    </body>
+{% endblock %}

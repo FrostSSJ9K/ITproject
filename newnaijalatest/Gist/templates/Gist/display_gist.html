@@ -1,0 +1,161 @@
+{% extends 'Music/../../../Frontend/templates/Frontend/base.html' %}
+<title> {% block title %}{{ gist.seo_title }}{% endblock %}</title>
+{% block extra_head_tags %}
+    <meta property="fb:app_id"        content="276569669840426" />
+    <meta property="og:url"           content="{% url 'Gist:display_gist' gist.slug %}"/>
+    <meta property="og:type"          content="website" />
+    <meta property="og:title"         content="{{ gist.seo_title }}" />
+    <meta property="og:description"   content="{{ gist.description |safe }}"/>
+    <meta property="og:image"         content="{{ gist.cover_image.url }}"/>
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:image" content="{{ gist.cover_image.url }}">
+{% endblock %}
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css"
+          integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+
+{% block body %}
+  {% load static %}
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2&appId=276569669840426&autoLogAppEvents=1';
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+
+  <div class="container" style="background-color:white; margin-top: 0.5%">
+
+      <div class="row">
+            <div class="col-lg-4" >
+                <a href="#" class="btn btn-dark" role="button">{{ gist.category }}</a>
+            </div>
+            <div class="col-lg-12">
+                <strong style="font-family:'Arial Black'; font-size:xx-large;color: #535362">{{ gist.title |safe }}</strong>
+            </div>
+        </div><br>
+       <div class="row">
+            <div class="col-lg-12">
+                <h6>Posted by <strong style="color: #535362">{{ gist.poster  |safe}}</strong> on {{ gist.created_on | date }}</h6>
+            </div>
+        </div>
+
+  <div class="row" style="margin-top: 1%">
+
+  </div>
+
+  <div class="row">
+        <div class="col-lg-12">
+            <div class="too" style="float: right">
+                <div class="fb-share-button" data-href="{% url 'Gist:display_gist' gist.slug %}"
+               data-layout="button_count"
+               data-size="large"
+               data-mobile-iframe="true">
+              <a target="_blank"
+                 href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse"
+                 class="fb-xfbml-parse-ignore"><i class="fab fa-facebook-square fa-4x" style="color: #3B5998"></i>
+              </a>
+          </div>
+
+                <a href="" ><i class="fab fa-google-plus-square fa-2x" style="color: #dc4e41"></i></a>
+                <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button"
+                   data-size="large"
+                   data-text="{{gist.seo_title}}"
+                   data-via="Toochuk88044145"
+                   data-hashtags="sinzuumystery" data-lang="en"
+                   data-show-count="True">Tweet
+                </a>
+                <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                <!---<a href=""  ><i class="fab fa-twitter-square fa-2x" style="color: #55acee"></i></a>---->
+                <a href="" ><i class="fab fa-linkedin fa-2x" style="color:  #0077B5"></i></a>
+                <a href=""><i class="fab fa-whatsapp-square fa-2x" style="color: #25d366"></i></a>
+            </div>
+        </div>
+    </div>
+  <hr>
+
+
+  <div class="row">
+      <div class="col-lg-12">
+          <!--<h6 style="font-family: 'Times New Roman'; font-size: larger"><strong>Brief Description...</strong> {{ gist.description }}</h6>-->
+          <img src="{{ gist.cover_image.url }}" class="center-block img-fluid" style="height: 280px; width: 1000px;"/>
+      </div>
+  </div>
+
+  <hr>
+
+  <div class="row">
+      <div class="col-lg-12 col-sm-12">
+
+          <h6 style="font-family: 'Times New Roman';font-size: larger">{{ gist.body |safe }}</h6>
+
+      </div>
+  </div>
+  {% if more_gist %}
+
+      <strong style="text-align: center; margin-top: -1%">More Related {{gist.category  }}'s........</strong>
+
+  <hr>
+
+  <div class="col-lg-12">
+  <div class="row">
+          {% for gist in more_gist %}
+                <div class="col-md-4 " style="padding-left: 1px;padding-right: 1px">
+
+                        <a href="{% url 'Gist:display_gist'  gist.slug %}">
+                            <img src="{{ gist.cover_image.url }}" class="img-fluid" style="height: 160px; width: 1000px;">
+
+                        </a>
+                        <a href="{% url 'Gist:display_gist' gist.slug %}" style="color: #535362">{{ gist.title |safe}}</a>
+
+
+
+                </div>
+                {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+            {% endfor %}
+
+  </div>
+  </div>
+  {% endif %}
+      <div class="row">
+          <div class="fb-share-button" data-href="{% url 'Gist:display_gist' gist.slug %}"
+               data-layout="button_count"
+               data-size="small"
+               data-mobile-iframe="true">
+              <a target="_blank"
+                 href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse"
+                 class="fb-xfbml-parse-ignore">Share
+              </a>
+          </div>
+       <!-----<div id="fb-root"></div>
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>-->
+
+  <!-- Your share button code -->
+  <!---<div class="fb-share-button"
+       data-href="{{ request.build_absolute_uri }}" data-layout="button_count" data-size="small"
+       data-mobile-iframe="true">
+      <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse"
+
+         class="fb-xfbml-parse-ignore">Share
+      </a>
+  </div>----->
+      </div>
+
+  </div>
+
+
+
+
+
+
+
+
+
+{% endblock %}

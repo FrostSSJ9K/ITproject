@@ -1,0 +1,628 @@
+
+{% extends 'Frontend/base.html' %}
+{% block title %} Search Result {% endblock %}
+{% load static %}
+{% block body %}
+
+   <div class="container">
+   <div class="row">
+    <div class="col-lg-10">
+        {% for message in messages %}
+        <div class="alert {{ message.tags }} alert-dismissible" role="alert" style="background-color: black; box-shadow: 10px 10px 10px;color:darkgray">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    <p style="color:white">{{ message }}</p>
+        </div>
+            {% endfor %}
+    </div>
+</div>
+       <div class="row">
+
+
+                  {% if artist_result %}
+
+                    <div class="row">
+                    <h5 style="text-align:center; color: darkgrey">Found: <strong style="color: black">{{ artist_result|length }} Result{{ artist_result|pluralize }}.</strong></h5><br>
+                        <br>{% for artist in  artist_result %}
+                                    <div class="row">
+                                    <div class="col-lg-4">
+                                    <a href="{% url 'Music:song_download' artist.id %}">
+                                        <img src="{{artist.cover_image.url }}" class="img-fluid" style="height: 120px; width: 1000px;">
+                                    </a>
+                                    </div>
+                                        <div class="col-lg-8" id="title">
+                                            <h5>Song Title: <strong style="text-align:center; color: darkgrey">Song Title</strong>{{ artist.music.song_title | safe | title}}</h5>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <h5><strong style="text-align:center; color: darkgrey">Artist: </strong>{{ artist.music.artist }}</h5>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h5><strong  style="text-align:center; color: darkgrey">Album: </strong>{{ artist.music.album | title}}</h5>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                   <h5><strong  style="text-align:center; color: darkgrey">Genre: </strong>{{ artist.music.genre | title}}</h5>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h5><strong style="text-align:center; color: darkgrey">Feature Artist: </strong>{{ artist.music.featured_artist| title }}</h5>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h5><strong  style="text-align:center; color: darkgrey">Released Year: </strong>{{ artist.music.released_Year }}   </h5>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h5><strong  style="text-align:center; color: darkgrey">Type: </strong> Audio</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <hr style="color: black; height: 5px;">
+                                        </div>
+                                    </div>
+                                    {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+                                {% endfor %}
+
+                    </div><hr>
+
+                  {% endif %}
+       <!------Video-------->
+       {% if  artist_result_video %}
+                    <div class="row">
+                    <h5 style="text-align:center; color: darkgrey">Found: <strong style="color: black">{{artist_result_video|length }} Result{{artist_result_video|pluralize }}.</strong></h5><br>
+                        <br>{% for artist in   artist_result_video %}
+                                    <div class="row">
+                                    <div class="col-lg-4">
+                                    <a href="{% url 'Music:video_downloadv' artist.id %}">
+                                        <img src="{{artist.music.cover_image.url }}" class="img-fluid" style="height: 120px; width: 1000px;">
+                                    </a>
+                                    </div>
+                                        <div class="col-lg-8" id="title">
+                                            <h5 ><strong style="text-align:center; color: darkgrey">Song Tiltle: </strong>{{ artist.music.song_title | safe }}</h5>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <h5><strong style="text-align:center; color: darkgrey">Artist: </strong>{{ artist.music.artist }}</h5>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h5><strong  style="text-align:center; color: darkgrey">Album: </strong>{{ artist.music.album | title}}</h5>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                   <h5><strong  style="text-align:center; color: darkgrey">Genre: </strong>{{ artist.music.genre| title }}</h5>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h5><strong style="text-align:center; color: darkgrey">Feature Artist: </strong>{{ artist.music.featured_artist| title }}</h5>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h5><strong  style="text-align:center; color: darkgrey">Released Year: </strong>{{ artist.music.released_Year }}   </h5>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h5><strong  style="text-align:center; color: darkgrey">Type: </strong> Video</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <hr style="color: black; height: 5px;">
+                                        </div>
+                                    </div>
+                                    {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+                                {% endfor %}
+
+                    </div><hr>
+       {% endif %}
+
+       </div>
+   <!---------------------search song title------------------------------->
+         <div class="row">
+
+
+                  {% if song_title_audio %}
+
+                    <div class="row">
+                    <h5 style="text-align:center; color: darkgrey">Found: <strong style="color: black">{{ song_title_audio|length }} Result{{song_title_audio|pluralize }}.</strong></h5><br>
+                        <br>{% for artist in  song_title_audio %}
+                                    <div class="row">
+                                    <div class="col-lg-4">
+                                    <a href="{% url 'Music:song_download' artist.id %}">
+                                        <img src="{{artist.cover_image.url }}" class="img-fluid" style="height: 120px; width: 1000px;">
+                                    </a>
+                                    </div>
+                                        <div class="col-lg-8" id="title">
+                                            <h5><strong style="text-align:center; color: darkgrey">Song Title: </strong>{{ artist.music.song_title | safe | title}}</h5>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <h5><strong style="text-align:center; color: darkgrey">Artist: </strong>{{ artist.music.artist | title}}</h5>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h5><strong  style="text-align:center; color: darkgrey">Album: </strong>{{ artist.music.album | title}}</h5>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                   <h5><strong  style="text-align:center; color: darkgrey">Genre: </strong>{{ artist.music.genre| title }}</h5>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h5><strong style="text-align:center; color: darkgrey">Feature Artist: </strong>{{ artist.music.featured_artist| title }}</h5>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h5><strong  style="text-align:center; color: darkgrey">Released Year: </strong>{{ artist.music.released_Year }}   </h5>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h5><strong  style="text-align:center; color: darkgrey">Type: </strong> Audio</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <hr style="color: black; height: 5px;">
+                                        </div>
+                                    </div>
+                                    {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+                                {% endfor %}
+
+                    </div><hr>
+
+                  {% endif %}
+       {% if  song_title_video %}
+                    <div class="row">
+                    <h5 style="text-align:center; color: darkgrey">Found: <strong style="color: black">{{ song_title_video|length }} Result{{song_title_video|pluralize }}.</strong></h5><br>
+                        <br>{% for artist in   song_title_video %}
+                                    <div class="row">
+                                    <div class="col-lg-4">
+                                    <a href="#">
+                                        <img src="{{artist.music.cover_image.url }}" class="img-fluid" style="height: 120px; width: 1000px;">
+                                    </a>
+                                    </div>
+                                        <div class="col-lg-8" id="title">
+                                            <h5><strong style="text-align:center; color: darkgrey">Song Title</strong>{{ artist.music.song_title | safe| title }}</h5>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <h5><strong style="text-align:center; color: darkgrey">Artist: </strong>{{ artist.music.artist| title }}</h5>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h5><strong  style="text-align:center; color: darkgrey">Album: </strong>{{ artist.music.album| title }}</h5>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                   <h5><strong  style="text-align:center; color: darkgrey">Genre: </strong>{{ artist.music.genre| title }}</h5>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h5><strong style="text-align:center; color: darkgrey">Feature Artist: </strong>{{ artist.music.featured_artist }}</h5>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h5><strong  style="text-align:center; color: darkgrey">Released Year: </strong>{{ artist.music.released_Year }}   </h5>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h5><strong  style="text-align:center; color: darkgrey">Type: </strong> Video</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <hr style="color: black; height: 5px;">
+                                        </div>
+                                    </div>
+                                    {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+                                {% endfor %}
+
+                    </div><hr>
+       {% endif %}
+
+       </div>
+   <!---------------------Mixtape--------------------------------->
+    <div class="row">
+    <!---------------------Mixtape by tape name--------------------------------->
+                  {% if all_tapename %}
+
+                    <div class="row">
+                    <h5 style="text-align:center; color: darkgrey">Found: <strong style="color: black">{{ all_tapename|length }} Result{{all_tapename|pluralize }}.</strong></h5><br>
+                        <br>{% for tape in  all_tapename %}
+                                    <div class="row">
+                                    <div class="col-lg-4">
+                                    <a href="{% url 'Music:music_mixtape' tape.id %}">
+                                        <img src="{{tape.tape_image.url }}" class="img-fluid" style="height: 120px; width: 1000px;">
+                                    </a>
+                                    </div>
+                                        <div class="col-lg-8 col-sm-12" id="title">
+                                            <h5><strong style="text-align:center; color: darkgrey">Mixtape: </strong>{{ tape.tape_name | safe }}</h5>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <h5><strong style="text-align:center; color: darkgrey">Dj Name: </strong>{{ tape.dj_name | title}}</h5>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h5><strong  style="text-align:center; color: darkgrey">Date: </strong>{{ tape.uploaded_at |date}}</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <hr style="color: black; height: 5px;">
+                                        </div>
+                                    </div>
+                                    {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+                                {% endfor %}
+
+                    </div><hr>
+
+                  {% endif %}
+     <!---------------------Mixtape by dj--------------------------------->
+       {% if  sall_djname %}
+                    <div class="row">
+                    <h5 style="text-align:center; color: darkgrey">Found: <strong style="color: black">{{ all_djname |length }} Result{{all_djname |pluralize }}.</strong></h5><br>
+                        <br>{% for dj in   all_djname %}
+                                    <div class="row">
+                                    <div class="col-lg-4">
+                                    <a href="{% url 'Music:music_mixtape' dj.id %}">
+                                        <img src="{{jd.tape_image.url }}" class="img-fluid" style="height: 120px; width: 1000px;">
+                                    </a>
+                                    </div>
+                                        <div class="col-lg-8" id="title">
+                                            <h5><strong style="text-align:center; color: darkgrey">Song Title</strong>{{ dj.tape_name | safe| title }}</h5>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <h5><strong style="text-align:center; color: darkgrey">Dj Name: </strong>{{ dj.dj_name| title }}</h5>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h5><strong  style="text-align:center; color: darkgrey">Date: </strong>{{ dj.uploaded_at| date }}</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <hr style="color: black; height: 5px;">
+                                        </div>
+                                    </div>
+                                    {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+                                {% endfor %}
+
+                    </div><hr>
+       {% endif %}
+
+       </div>
+
+      <!---------------------Gist--------------------------------->
+    <div class="row">
+    <!---------------------Gist by title--------------------------------->
+                  {% if all_gisttitle %}
+
+                    <div class="row">
+                    <h5 style="text-align:center; color: darkgrey">Found: <strong style="color: black">{{ all_gisttitle|length }} Result{{all_gisttitle|pluralize }}.</strong></h5><br>
+                        <br>{% for gist in  all_gisttitle %}
+                                    <div class="row">
+                                    <div class="col-lg-4">
+                                    <a href="{% url 'Gist:display_gist' gist.id %}">
+                                        <img src="{{tape.tape_image.url }}" class="img-fluid" style="height: 120px; width: 1000px;">
+                                    </a>
+                                    </div>
+                                        <div class="col-lg-8 col-sm-12" id="title">
+                                            <h5><strong style="text-align:center; color: darkgrey">Mixtape: </strong>{{ gist.title | safe }}</h5>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <h5><strong style="text-align:center; color: darkgrey">Dj Name: </strong>{{ gist.category | title}}</h5>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h5><strong  style="text-align:center; color: darkgrey">Date: </strong>{{ gist.created_on |date}}</h5>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h5><strong  style="text-align:center; color: darkgrey">Date: </strong>{{ gist.poster |date}}</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <hr style="color: black; height: 5px;">
+                                        </div>
+                                    </div>
+                                    {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+                                {% endfor %}
+
+                    </div><hr>
+
+                  {% endif %}
+        <!---------------------Gist by Category--------------------------------->
+       {% if all_gistcategory %}
+                    <div class="row">
+                    <h5 style="text-align:center; color: darkgrey">Found: <strong style="color: black">
+                        {{ all_gistcategory |length }} Result{{all_gistcategory |pluralize }}.</strong>
+                    </h5><br>
+                        <br>{% for gist in   all_gistcategory %}
+                                    <div class="row">
+                                    <div class="col-lg-4">
+                                    <a href="{% url 'Gist:display_gist' gist.id %}">
+                                        <img src="{{jd.tape_image.url }}" class="img-fluid" style="height: 120px; width: 1000px;">
+                                    </a>
+                                    </div>
+                                        <div class="col-lg-8" id="title">
+                                            <h5><strong style="text-align:center; color: darkgrey">Mixtape: </strong>{{ gist.title | safe }}</h5>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <h5><strong style="text-align:center; color: darkgrey">Dj Name: </strong>{{ gist.category | title}}</h5>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h5><strong  style="text-align:center; color: darkgrey">Date: </strong>{{ gist.created_on |date}}</h5>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h5><strong  style="text-align:center; color: darkgrey">Date: </strong>{{ gist.poster |date}}</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <hr style="color: black; height: 5px;">
+                                        </div>
+                                    </div>
+                                    {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+                                {% endfor %}
+
+                    </div><hr>
+       {% endif %}
+
+     <!---------------------Gist by poster--------------------------------->
+       {% if all_gistposter %}
+                    <div class="row">
+                    <h5 style="text-align:center; color: darkgrey">Found: <strong style="color: black">{{ all_gistposter |length }} Result{{all_gistposter |pluralize }}.</strong></h5><br>
+                        <br>{% for gist in   all_gistposter %}
+                                    <div class="row">
+                                    <div class="col-lg-4">
+                                    <a href="{% url 'Gist:display_gist' gist.id %}">
+                                        <img src="{{jd.tape_image.url }}" class="img-fluid" style="height: 120px; width: 1000px;">
+                                    </a>
+                                    </div>
+                                        <div class="col-lg-8" id="title">
+                                            <h5><strong style="text-align:center; color: darkgrey">Mixtape: </strong>{{ gist.title | safe }}</h5>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <h5><strong style="text-align:center; color: darkgrey">Dj Name: </strong>{{ gist.category | title}}</h5>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h5><strong  style="text-align:center; color: darkgrey">Date: </strong>{{ gist.created_on |date}}</h5>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h5><strong  style="text-align:center; color: darkgrey">Date: </strong>{{ gist.poster |date}}</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <hr style="color: black; height: 5px;">
+                                        </div>
+                                    </div>
+                                    {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+                                {% endfor %}
+
+                    </div><hr>
+       {% endif %}
+
+       </div>
+   <!---------------------Mystery--------------------------------->
+    <div class="row">
+    <!---------------------Mixtape by category--------------------------------->
+                  {% if mystery_category %}
+
+                    <div class="row">
+                    <h5 style="text-align:center; color: darkgrey">Found: <strong style="color: black">{{ mystery_category|length }} Result{{mystery_category|pluralize }}.</strong></h5><br>
+                        <br>{% for mystery in  mystery_category %}
+                                    <div class="row">
+                                    <div class="col-lg-4">
+                                    <a href="{% url 'Mysteries:love quotes' mystery.id %}">
+                                        <img src="{{mystery.quote_picture.url }}" class="img-fluid" style="height: 120px; width: 1000px;">
+                                    </a>
+                                    </div>
+                                        <div class="col-lg-8 col-sm-12" id="title">
+                                            <h5><strong style="text-align:center; color: darkgrey">Category: </strong>{{ mystery.category | safe }}</h5>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <h5><strong style="text-align:center; color: darkgrey">Author: </strong>{{ mystery.author | title}}</h5>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h5><strong  style="text-align:center; color: darkgrey">Date: </strong>{{mystery.created_date |date}}</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <hr style="color: black; height: 5px;">
+                                        </div>
+                                    </div>
+                                    {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+                                {% endfor %}
+
+                    </div><hr>
+
+                  {% endif %}
+     <!---------------------Mystery by Author--------------------------------->
+       {% if  mystery_author %}
+                    <div class="row">
+                    <h5 style="text-align:center; color: darkgrey">Found: <strong style="color: black">{{  mystery_author |length }} Result{{ mystery_author |pluralize }}.</strong></h5><br>
+                        <br>{% for mystery in    mystery_author %}
+                                    <div class="row">
+                                    <div class="col-lg-4">
+                                    <a href="{% url 'Mysteries:love quotes' mystery.id %}">
+                                        <img src="{{mystery.quote_picture.url }}" class="img-fluid" style="height: 120px; width: 1000px;">
+                                    </a>
+                                    </div>
+                                        <div class="col-lg-8 col-sm-12" id="title">
+                                            <h5><strong style="text-align:center; color: darkgrey">Category: </strong>{{ mystery.category | safe }}</h5>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <h5><strong style="text-align:center; color: darkgrey">Author: </strong>{{ mystery.author | title}}</h5>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h5><strong  style="text-align:center; color: darkgrey">Date: </strong>{{mystery.created_date |date}}</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <hr style="color: black; height: 5px;">
+                                        </div>
+                                    </div>
+                                    {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+                                {% endfor %}
+
+                    </div><hr>
+       {% endif %}
+
+       </div>
+         <!---------------------News--------------------------------->
+    <div class="row">
+    <!---------------------News by title--------------------------------->
+                  {% if news_title%}
+
+                    <div class="row">
+                    <h5 style="text-align:center; color: darkgrey">Found: <strong style="color: black">{{ news_title|length }} Result{{news_title|pluralize }}.</strong></h5><br>
+                        <br>{% for news in  news_title %}
+                                    <div class="row">
+                                    <div class="col-lg-4">
+                                    <a href="{% url 'News:display_news' news.id %}">
+                                        <img src="{{news.cover_image.url }}" class="img-fluid" style="height: 120px; width: 1000px;">
+                                    </a>
+                                    </div>
+                                        <div class="col-lg-8 col-sm-12" id="title">
+                                            <h5><strong style="text-align:center; color: darkgrey">Category: </strong>{{ news.category | safe }}</h5>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <h5><strong style="text-align:center; color: darkgrey">Author: </strong>{{ news.poster | title}}</h5>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h5><strong  style="text-align:center; color: darkgrey">Date: </strong>{{mystery.created_on |date}}</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <hr style="color: black; height: 5px;">
+                                        </div>
+                                    </div>
+                                    {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+                                {% endfor %}
+
+                    </div><hr>
+
+                  {% endif %}
+     <!---------------------News by Category--------------------------------->
+       {% if  news_category %}
+                    <div class="row">
+                    <h5 style="text-align:center; color: darkgrey">Found: <strong style="color: black">{{  news_category |length }} Result{{news_category |pluralize }}.</strong></h5><br>
+                        <br>{% for news in    news_category %}
+                                    <div class="row">
+                                    <div class="col-lg-4">
+                                    <a href="{% url 'News:display_news' news.id %}">
+                                        <img src="{{news.cover_image.url }}" class="img-fluid" style="height: 120px; width: 1000px;">
+                                    </a>
+                                    </div>
+                                        <div class="col-lg-8 col-sm-12" id="title">
+                                            <h5><strong style="text-align:center; color: darkgrey">Title: </strong>{{ news.category | safe }}</h5>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <h5><strong style="text-align:center; color: darkgrey">Author: </strong>{{ news.poster | title}}</h5>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h5><strong  style="text-align:center; color: darkgrey">Date: </strong>{{mystery.created_on |date}}</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <hr style="color: black; height: 5px;">
+                                        </div>
+                                    </div>
+                                    {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+                                {% endfor %}
+
+                    </div><hr>
+       {% endif %}
+        {% if  news_poster %}
+                    <div class="row">
+                    <h5 style="text-align:center; color: darkgrey">Found: <strong style="color: black">{{ news_poster |length }} Result{{news_poster |pluralize }}.</strong></h5><br>
+                        <br>{% for news in    news_poster %}
+                                    <div class="row">
+                                    <div class="col-lg-4">
+                                    <a href="{% url 'News:display_news' news.id %}">
+                                        <img src="{{news.cover_image.url }}" class="img-fluid" style="height: 120px; width: 1000px;">
+                                    </a>
+                                    </div>
+                                        <div class="col-lg-8 col-sm-12" id="title">
+                                            <h5><strong style="text-align:center; color: darkgrey">Category: </strong>{{ news.category | safe }}</h5>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <h5><strong style="text-align:center; color: darkgrey">Author: </strong>{{ news.poster | title}}</h5>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h5><strong  style="text-align:center; color: darkgrey">Date: </strong>{{mystery.created_on |date}}</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <hr style="color: black; height: 5px;">
+                                        </div>
+                                    </div>
+                                    {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+                                {% endfor %}
+
+                    </div><hr>
+       {% endif %}
+
+       </div>
+ <!---------------------TalkZone--------------------------------->
+    <div class="row">
+    <!---------------------TalkZone by Title--------------------------------->
+                  {% if talkzone_title %}
+
+                    <div class="row">
+                    <h5 style="text-align:center; color: darkgrey">Found: <strong style="color: black">{{ talkzone_title|length }} Result{{talkzone_title|pluralize }}.</strong></h5><br>
+                        <br>{% for talk in  talkzone_title %}
+                                    <div class="row">
+                                    <div class="col-lg-4">
+                                    <a href="{% url 'News:display_news' talk.id %}">
+                                        <img src="{{talk.middle_image.url }}" class="img-fluid" style="height: 120px; width: 1000px;">
+                                    </a>
+                                    </div>
+                                        <div class="col-lg-8 col-sm-12" id="title">
+                                            <h5><strong style="text-align:center; color: darkgrey">Category: </strong>{{ talk.title | safe }}</h5>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <h5><strong style="text-align:center; color: darkgrey">Author: </strong>{{talk.poster | title}}</h5>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h5><strong  style="text-align:center; color: darkgrey">Date: </strong>{{talk.created_on |date}}</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <hr style="color: black; height: 5px;">
+                                        </div>
+                                    </div>
+                                    {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+                                {% endfor %}
+
+                    </div><hr>
+
+                  {% endif %}
+     <!---------------------TalkZone by Author--------------------------------->
+       {% if talkzone_poster %}
+                    <div class="row">
+                    <h5 style="text-align:center; color: darkgrey">Found: <strong style="color: black">{{ talkzone_poster |length }} Result{{ talkzone_poster |pluralize }}.</strong></h5><br>
+                        <br>{% for talk in talkzone_poster %}
+                                    <div class="row">
+                                    <div class="col-lg-4">
+                                    <a href="{% url 'News:display_news' talk.id %}">
+                                        <img src="{{talk.middle_image.url }}" class="img-fluid" style="height: 120px; width: 1000px;">
+                                    </a>
+                                    </div>
+                                        <div class="col-lg-8 col-sm-12" id="title">
+                                            <h5><strong style="text-align:center; color: darkgrey">Title: </strong>{{ talk.title | safe }}</h5>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <h5><strong style="text-align:center; color: darkgrey">Author: </strong>{{talk.poster | title}}</h5>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h5><strong  style="text-align:center; color: darkgrey">Date: </strong>{{talk.created_on |date}}</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <hr style="color: black; height: 5px;">
+                                        </div>
+                                    </div>
+                                    {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+                                {% endfor %}
+
+                    </div><hr>
+       {% endif %}
+
+       </div>
+    </div>
+
+{% endblock %}

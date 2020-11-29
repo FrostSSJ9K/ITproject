@@ -1,0 +1,28 @@
+{% extends 'Music/../../../Frontend/templates/Frontend/base.html' %}
+{% block title %}Letters{% endblock %}
+
+
+{% block body %}
+{% load static %}
+   <div class="container">
+    <div class="row">
+        {% for quotes in  all_quotes %}
+                <div class="col-md-10 offset-1 " style="padding-left: 5px;padding-right: 5px;">
+
+                            <a href="" style="text-decoration: none">
+                                <strong style="text-align: left;text-decoration: none; color:white; background-color: black; border-radius: 5px">CATEGORY: </strong>&nbsp;<strong style="color: #535362">  {{ quotes.category }}</strong>
+                                <img src="{{ quotes.quote_picture.url }}" class="img-fluid" style="height: 320px; width: 800px;margin-top: 2%">
+                            </a>
+                                <a href="{{ quotes.quote_picture.url }}" download="{{ quotes.quote_picture.url }}">Download Picture</a>
+                                <a href="" style="float: right">share picture</a>
+                                <h6>{{ quotes.message|safe|linebreaks }}</h6>
+
+
+
+
+                </div>
+                {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+            {% endfor %}
+    </div>
+   </div>
+{% endblock %}

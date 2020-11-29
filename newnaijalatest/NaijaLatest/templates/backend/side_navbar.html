@@ -1,0 +1,233 @@
+{% load static %}
+<nav class="side-navbar">
+      <div class="side-navbar-wrapper">
+        <!-- Sidebar Header    -->
+        <div class="sidenav-header d-flex align-items-center justify-content-center">
+          <!-- User Info-->
+            {% if request.user.is_authenticated %}
+                {% for profile in profile_pic %}
+          <div class="sidenav-header-inner text-center"><img src="{{ profile.picture.url }}" alt="person" class="img-fluid rounded-circle">
+                {% endfor %}
+              <h2 class="h5">{{ user.username }}</h2>
+                {% if perms.Profile.superuser %}
+            <span><a href="{% url 'Profile:superuser' %}"><i class="fas fa-tachometer-alt"></i>Dashboard </a></span>
+                    {% elif perms.Profile.Special_User %}
+                    <span><a href="{% url 'Profile:special_user' %}"><i class="fas fa-tachometer-alt"></i>Dashboard </a></span>
+                    {% elif perms.Profile.Viewers %}
+                    <span><a href="{% url 'Profile:viewers' %}"><i class="fas fa-tachometer-alt"></i>Dashboard </a></span>
+              {% endif %}
+          </div>
+
+             {% else %}
+                <div class="sidenav-header-inner text-center"><img src="{% static 'image/user.fw.png' %}" alt="person" class="img-fluid rounded-circle">
+            <h2 class="h5">Anonimous</h2>
+          </div>
+            {% endif %}
+          <!-- Small Brand information, appears on minimized sidebar-->
+          <div class="sidenav-header-logo"><a href="index.html" class="brand-small text-center"> <strong>S</strong><strong class="text-primary">M</strong></a></div>
+        </div>
+        <!-- Sidebar Navigation Menus-->
+        <div class="main-menu">
+        <!--------------------------SUper User-------------------------------->
+            {% if perms.Profile.superuser %}
+          <h5 class="sidenav-heading">Main</h5>
+          <ul id="side-main-menu" class="side-menu list-unstyled">
+              <li><a href="{% url 'Music:home1' %}"> <i class="icon-home"></i>Home                             </a></li>
+              <li><a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i class="fas fa-user-md"></i>PROFILE </a>
+              <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
+                <li><a href="{% url 'Profile:edit_user_profile' %}"><i class="fas fa-user-md"></i>Edit Profile</a></li>
+                <li><a href="{% url 'Profile:permission' %}"><i class="fas fa-music"></i>permission</a></li>
+                  <li><a href="{% url 'Profile:access' %}"><i class="fas fa-music"></i>User Access</a></li>
+              </ul>
+            </li>
+
+           <li><a href="#music" aria-expanded="false" data-toggle="collapse"> <i class="fas fa-music"></i>MUSIC </a>
+              <ul id="music" class="collapse list-unstyled ">
+                <li><a href="{% url 'Music:add-music' %}"><i class="fas fa-plus"></i>ADD MUSIC</a></li>
+                  {% if request.user.is_authenticated %}
+                     {% if request.user.is_superuser %}
+                <li><a href="{% url 'Music:unpublished_music' %}"><i class="fas fa-edit"></i>REVIEW MUSIC</a></li>
+                     {% endif %}
+                  {% endif %}
+              </ul>
+            </li>
+            <!---<li><a href="{% url 'Music:add-music' %}"> <i class="fas fa-music"></i>Add Music                            </a></li>--->
+           <!-- <li><a href="{% url 'Gist:add-gist' %}"> <i class="fas fa-address-card"></i></i>Add Gist                            </a></li>--->
+          <li><a href="#gist" aria-expanded="false" data-toggle="collapse"><i class="far fa-newspaper"></i>GIST </a>
+              <ul id="gist" class="collapse list-unstyled ">
+                <li><a href="{% url 'Gist:add-gist' %}"><i class="fas fa-plus"></i>ADD GIST</a></li>
+                  {% if request.user.is_authenticated %}
+                     {% if request.user.is_superuser %}
+                <li><a href="{% url 'Gist:unpublished' %}"><i class="fas fa-edit"></i>REVIEW GIST</a></li>
+                     {% endif %}
+                  {% endif %}
+              </ul>
+            </li>
+           <li><a href="#news" aria-expanded="false" data-toggle="collapse"><i class="far fa-newspaper"></i>NEWS </a>
+              <ul id="news" class="collapse list-unstyled ">
+                <li><a href="{% url 'News:addnews' %}"><i class="fas fa-plus"></i>ADD NEWS</a></li>
+                  {% if request.user.is_authenticated %}
+                     {% if request.user.is_superuser %}
+                <li><a href="{% url 'News:review_news' %}"><i class="fas fa-edit"></i>REVIEW NEWS</a></li>
+                     {% endif %}
+                  {% endif %}
+              </ul>
+            </li>
+           <!--- <li><a href="{% url 'News:addnews' %}"><i class="far fa-newspaper"></i>Add News                             </a></li>--->
+          <li><a href="#mixtape" aria-expanded="false" data-toggle="collapse"><i class="fab fa-product-hunt"></i>MIXTAPE </a>
+              <ul id="mixtape" class="collapse list-unstyled ">
+                <li><a href="{% url 'Music:add_mixtape' %}"><i class="fas fa-plus"></i>ADD MIXTAPE</a></li>
+                  {% if request.user.is_authenticated %}
+                     {% if request.user.is_superuser %}
+                <li><a href="{% url 'Music:unpublished_mixtape' %}"><i class="fas fa-edit"></i>REVIEW MIXTAPE</a></li>
+                     {% endif %}
+                  {% endif %}
+              </ul>
+            </li>
+           <!--- <li><a href="{% url 'Music:add_mixtape' %}"><i class="fab fa-product-hunt"></i>Add Mixtape</a> </li>--->
+          <li><a href="#mystery" aria-expanded="false" data-toggle="collapse"><i class="fas fa-quote-right"></i>MYSTERIES </a>
+              <ul id="mystery" class="collapse list-unstyled ">
+                <li><a href="{% url 'Mysteries:add_mysteries' %}"><i class="fas fa-plus"></i>ADD MYSTERY</a></li>
+                  {% if request.user.is_authenticated %}
+                     {% if request.user.is_superuser %}
+                <li><a href="{% url 'Mysteries:unpublished' %}"><i class="fas fa-edit"></i>REVIEW MYSTERY</a></li>
+                     {% endif %}
+                  {% endif %}
+              </ul>
+            </li>
+            <!---<li><a href="login.html"> <i class="fas fa-quote-right"></i></i>Add Mysteries                             </a></li>--->
+              <li><a href="#talkzone" aria-expanded="false" data-toggle="collapse"> <i class="fas fa-chalkboard-teacher"></i>TALKZONE </a>
+              <ul id="talkzone" class="collapse list-unstyled ">
+                <li><a href="{% url 'TalkZone:add_talk' %}"><i class="fas fa-plus"></i>ADD TALKZONE</a></li>
+                  {% if request.user.is_authenticated %}
+                     {% if request.user.is_superuser %}
+                <li><a href="{% url 'TalkZone:unpublished' %}"><i class="fas fa-edit"></i>TALKZONE REVIEW</a></li>
+                     {% endif %}
+                  {% endif %}
+              </ul>
+            </li>
+              <!--<li> <a href="{% url 'TalkZone:add_talk' %}"> <i class="fas fa-chalkboard-teacher"></i>Add Talk Zone         </a></li>--->
+              <li><a href="#"><i class="fab fa-product-hunt"></i>Product</a> </li>
+          </ul>
+        {% endif %}
+        <!-------------Special User------------------->
+        {% if perms.Profile.Special_User%}
+          <h5 class="sidenav-heading">Main</h5>
+          <ul id="side-main-menu" class="side-menu list-unstyled">
+              <li><a href="{% url 'Music:home1' %}"> <i class="icon-home"></i>Home                             </a></li>
+              <li><a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i class="fas fa-user-md"></i>PROFILE </a>
+              <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
+                <li><a href="{% url 'Profile:edit_user_profile' %}"><i class="fas fa-user-md"></i>Edit Profile</a></li>
+              </ul>
+            </li>
+
+           <li><a href="#music" aria-expanded="false" data-toggle="collapse"> <i class="fas fa-music"></i>MUSIC </a>
+              <ul id="music" class="collapse list-unstyled ">
+                <li><a href="{% url 'Music:add-music' %}"><i class="fas fa-plus"></i>ADD MUSIC</a></li>
+                  <li><a href="{% url 'Music:unpublished_music' %}"><i class="fas fa-edit"></i>REVIEW MUSIC</a></li>
+              </ul>
+            </li>
+            <!---<li><a href="{% url 'Music:add-music' %}"> <i class="fas fa-music"></i>Add Music                            </a></li>--->
+            <!---<li><a href="{% url 'Gist:add-gist' %}"> <i class="fas fa-address-card"></i></i>Add Gist                            </a></li>--->
+              <li><a href="#gist" aria-expanded="false" data-toggle="collapse"><i class="far fa-newspaper"></i>GIST </a>
+              <ul id="gist" class="collapse list-unstyled ">
+                <li><a href="{% url 'Gist:add-gist' %}"><i class="fas fa-plus"></i>ADD GIST</a></li>
+                   <li><a href="{% url 'Gist:unpublished' %}"><i class="fas fa-edit"></i>REVIEW GIST</a></li>
+              </ul>
+            </li>
+           <li><a href="#news" aria-expanded="false" data-toggle="collapse"><i class="far fa-newspaper"></i>NEWS </a>
+              <ul id="news" class="collapse list-unstyled ">
+                <li><a href="{% url 'News:addnews' %}"><i class="fas fa-plus"></i>ADD NEWS</a></li>
+                  <li><a href="{% url 'News:review_news' %}"><i class="fas fa-edit"></i>REVIEW NEWS</a></li>
+              </ul>
+            </li>
+           <!--- <li><a href="{% url 'News:addnews' %}"><i class="far fa-newspaper"></i>Add News                             </a></li>--->
+          <li><a href="#mixtape" aria-expanded="false" data-toggle="collapse"><i class="fab fa-product-hunt"></i>MIXTAPE </a>
+              <ul id="mixtape" class="collapse list-unstyled ">
+                <li><a href="{% url 'Music:add_mixtape' %}"><i class="fas fa-plus"></i>ADD MIXTAPE</a></li>
+                  <li><a href="{% url 'Music:unpublished_mixtape' %}"><i class="fas fa-edit"></i>REVIEW MIXTAPE</a></li>
+              </ul>
+            </li>
+           <!--- <li><a href="{% url 'Music:add_mixtape' %}"><i class="fab fa-product-hunt"></i>Add Mixtape</a> </li>--->
+          <li><a href="#mystery" aria-expanded="false" data-toggle="collapse"><i class="fas fa-quote-right"></i>MYSTERIES </a>
+              <ul id="mystery" class="collapse list-unstyled ">
+                <li><a href="{% url 'Mysteries:add_mysteries' %}"><i class="fas fa-plus"></i>ADD MYSTERY</a></li>
+                  <li><a href="{% url 'Mysteries:unpublished' %}"><i class="fas fa-edit"></i>REVIEW MYSTERY</a></li>
+              </ul>
+            </li>
+            <!---<li><a href="login.html"> <i class="fas fa-quote-right"></i></i>Add Mysteries                             </a></li>--->
+              <li><a href="#talkzone" aria-expanded="false" data-toggle="collapse"> <i class="fas fa-chalkboard-teacher"></i>TALKZONE </a>
+              <ul id="talkzone" class="collapse list-unstyled ">
+                <li><a href="{% url 'TalkZone:add_talk' %}"><i class="fas fa-plus"></i>ADD TALKZONE</a></li>
+                   <li><a href="{% url 'TalkZone:unpublished' %}"><i class="fas fa-edit"></i>TALKZONE REVIEW</a></li>
+              </ul>
+            </li>
+              <!--<li> <a href="{% url 'TalkZone:add_talk' %}"> <i class="fas fa-chalkboard-teacher"></i>Add Talk Zone         </a></li>--->
+              <li><a href="#"><i class="fab fa-product-hunt"></i>Product</a> </li>
+          </ul>
+        {% endif %}
+        <!-----VIEWERS------>
+         {% if perms.Profile.Viewers%}
+          <h5 class="sidenav-heading">Main</h5>
+          <ul id="side-main-menu" class="side-menu list-unstyled">
+              <li><a href="{% url 'Music:home1' %}"> <i class="icon-home"></i>Home                             </a></li>
+              <li><a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i class="fas fa-user-md"></i>PROFILE </a>
+              <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
+                <li><a href="{% url 'Profile:edit_user_profile' %}"><i class="fas fa-user-md"></i>Edit Profile</a></li>
+              </ul>
+            </li>
+
+           <li><a href="#music" aria-expanded="false" data-toggle="collapse"> <i class="fas fa-music"></i>MUSIC </a>
+              <ul id="music" class="collapse list-unstyled ">
+                <li><a href="{% url 'Music:add-music' %}"><i class="fas fa-plus"></i>ADD MUSIC</a></li>
+              </ul>
+            </li>
+            <!---<li><a href="{% url 'Music:add-music' %}"> <i class="fas fa-music"></i>Add Music                            </a></li>--->
+            <!---<li><a href="{% url 'Gist:add-gist' %}"> <i class="fas fa-address-card"></i></i>Add Gist                            </a></li>-->
+              <li><a href="#gist" aria-expanded="false" data-toggle="collapse"><i class="far fa-newspaper"></i>GIST </a>
+              <ul id="gist" class="collapse list-unstyled ">
+                <li><a href="{% url 'Gist:add-gist' %}"><i class="fas fa-plus"></i>ADD GIST</a></li>
+              </ul>
+            </li>
+           <li><a href="#news" aria-expanded="false" data-toggle="collapse"><i class="far fa-newspaper"></i>NEWS </a>
+              <ul id="news" class="collapse list-unstyled ">
+                <li><a href="{% url 'News:addnews' %}"><i class="fas fa-plus"></i>ADD NEWS</a></li>
+
+              </ul>
+            </li>
+           <!--- <li><a href="{% url 'News:addnews' %}"><i class="far fa-newspaper"></i>Add News                             </a></li>--->
+          <li><a href="#mixtape" aria-expanded="false" data-toggle="collapse"><i class="fab fa-product-hunt"></i>MIXTAPE </a>
+              <ul id="mixtape" class="collapse list-unstyled ">
+                <li><a href="{% url 'Music:add_mixtape' %}"><i class="fas fa-plus"></i>ADD MIXTAPE</a></li>
+              </ul>
+            </li>
+           <!--- <li><a href="{% url 'Music:add_mixtape' %}"><i class="fab fa-product-hunt"></i>Add Mixtape</a> </li>--->
+          <li><a href="#mystery" aria-expanded="false" data-toggle="collapse"><i class="fas fa-quote-right"></i>MYSTERIES </a>
+              <ul id="mystery" class="collapse list-unstyled ">
+                <li><a href="{% url 'Mysteries:add_mysteries' %}"><i class="fas fa-plus"></i>ADD MYSTERY</a></li>
+              </ul>
+            </li>
+            <!---<li><a href="login.html"> <i class="fas fa-quote-right"></i></i>Add Mysteries                             </a></li>--->
+              <li><a href="#talkzone" aria-expanded="false" data-toggle="collapse"> <i class="fas fa-chalkboard-teacher"></i>TALKZONE </a>
+              <ul id="talkzone" class="collapse list-unstyled ">
+                <li><a href="{% url 'TalkZone:add_talk' %}"><i class="fas fa-plus"></i>ADD TALKZONE</a></li>
+              </ul>
+            </li>
+              <!--<li> <a href="{% url 'TalkZone:add_talk' %}"> <i class="fas fa-chalkboard-teacher"></i>Add Talk Zone         </a></li>--->
+              <li><a href="#"><i class="fab fa-product-hunt"></i>Product</a> </li>
+          </ul>
+        {% endif %}
+        </div>
+        <div class="admin-menu">
+          <h5 class="sidenav-heading">Second menu</h5>
+            <a href=""  ><img src="{% static  'image/nonsponsoredad1.PNG'%}" class="img-fluid " style="height: 215px; width: 1000px;"/></a>
+          <!---<ul id="side-admin-menu" class="side-menu list-unstyled">
+            <li> <a href="#"> <i class="icon-screen"> </i>Demo</a></li>
+            <li> <a href="#"> <i class="icon-flask"> </i>Demo
+                <div class="badge badge-info">Special</div></a></li>
+            <li> <a href=""> <i class="icon-flask"> </i>Demo</a></li>
+            <li> <a href=""> <i class="icon-picture"> </i>Demo</a></li>
+          </ul>--->
+        </div>
+      </div>
+    </nav>

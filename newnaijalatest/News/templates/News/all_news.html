@@ -1,0 +1,56 @@
+{% extends 'Music/../../../Frontend/templates/Frontend/base.html' %}
+<title> {% block title %}News{% endblock %}</title>
+
+     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css"
+          integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+
+{% block body %}
+  {% load static %}
+
+
+   <div class="container" style="background-color:white; margin-top: 0.5%">
+   <div class="row">
+    {% for news in newss %}
+                <div class="col-md-6 " style="padding-left: 1px;padding-right: 1px">
+
+                        <a href="{% url 'News:display_news' news.slug %}">
+                            <img src="{{ news.cover_picture.url }}" class="img-fluid" style="height: 160px; width: 1000px;">
+
+                        </a>
+                        <a href="{% url 'News:display_news' news.slug %}" style="color: #535362; text-decoration: none">{{ news.title | safe }}</a>
+
+
+                </div>
+                {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+            {% endfor %}
+   {% if newss.has_other_pages %}
+  <ul class="pagination mx-auto text-right" style="padding-right: 0px">
+    {% if newss.has_previous %}
+      <li class="page-item disabled"><a href="?page={{ newss.previous_page_number }}"  class="page-link">&laquo;</a></li>
+    {% else %}
+        <li class="page-item disabled"><a class="page-link" href="#"><span>&laquo;</span></a></li>
+    {% endif %}
+
+    {% for i in newss.paginator.page_range %}
+      {% if newss.number == i %}
+        <li class="page-item active">
+            <a href="?page"  class="page-link bg-dark">  <span>{{ i }} <span class="sr-only">(current)</span></span></a></li>
+      {% else %}
+        <li class="page-item"><a class="page-link bg-dark" href="?page={{ i }}" style="color: white">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if newss.has_next %}
+      <li class="page-item">
+          <a class="page-link" href="?page={{newss.next_page_number }}">&raquo;</a>
+      </li>
+    {% else %}
+      <li class="page-item page-link disabled">
+          <span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+
+    </div>
+
+   </div>
+{% endblock %}

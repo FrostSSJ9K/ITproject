@@ -1,0 +1,46 @@
+{% extends 'Frontend/base.html' %}
+<title> {% block title %}Home{% endblock %}</title>
+
+     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css"
+          integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+
+{% block body %}
+    <body>
+  {% load static %}
+
+  <div class="container">
+    <div class="row">
+    <div class="col-lg-10">
+        {% for message in messages %}
+        <div class="alert {{ message.tags }} alert-dismissible" role="alert" style="background-color: black; box-shadow: 10px 10px 10px;color:darkgray">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    <p style="color:white">{{ message }}</p>
+        </div>
+            {% endfor %}
+    </div>
+</div>
+    <div class="col-md-10 offset-1">
+        <div class="card">
+            <div class="card-header">
+                <div class="col-md-12 bg-dark" style="border-radius: 6px">
+                   <h3 style="color: white; text-align: center">Help Us to Make it Better. Your Comment Matters </h3>
+                </div>
+            </div>
+            <div class="card-body">
+                 <form method="POST" class="form-horizontal" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                {{ form.media }}
+                                    {{ form }}
+                                    {{form.errors }}
+                     <div class="form-group col-sm-12"><br>
+                         <button class="btn btn-success pull-right">Submit</button>
+                     </div>
+                 </form>
+            </div>
+        </div>
+    </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,72 @@
+
+{% extends 'Music/../../../Frontend/templates/Frontend/base.html' %}
+<title> {% block title %}All Gist{% endblock %}</title>
+
+     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css"
+          integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+    {% load hitcount_tags %}
+
+{% block body %}
+
+    {% load static %}
+    <div class="container" style="background-color: white;margin-top: 0.5% ">
+    <div class="row" style="margin-top: 2px">
+    {% for gists in   gists %}
+                <div class="col-md-6 " style="padding-left: 2px;padding-right: 2px">
+                        <a href="{% url 'Gist:display_gist' gists.slug %}">
+                            <img src="{{gists.cover_image.url}}" class="img-fluid" style="height: 160px; width: 1000px;">
+                        </a>
+                    {% get_hit_count_js_variables for gists as hitcount %}
+                    {% get_hit_count for gists as total_hits %}
+                        <script type="text/javascript">
+                        jQuery(document).ready(function($) {
+                        // use the template tags in our JavaScript call
+                        $.postCSRF("{{ hitcount.ajax_url }}", { hitcountPK : "{{ hitcount.pk }}" })
+                        .done(function(data){
+                            $('<i />').text(data.hit_counted).attr('id','hit-counted-value').appendTo('#hit-counted');
+                            $('#hit-response').text(data.hit_message);
+                        }).fail(function(data){
+                        console.log('POST failed');
+                        console.log(data);
+                        });
+                        });
+                        </script>
+                        <a href="{% url 'Gist:display_gist' gists.slug %}" style="color: #535362;">
+                            <h6 style="font-family:'Times New Roman';color: #535362 ">{{ gists.title|safe }}</h6>
+                        </a>
+                </div>
+                {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+            {% endfor %}
+    {% if gists.has_other_pages %}
+  <ul class="pagination mx-auto text-right" style="padding-right: 0px">
+    {% if gists.has_previous %}
+      <li class="page-item disabled"><a href="?page={{ gists.previous_page_number }}"  class="page-link">&laquo;</a></li>
+    {% else %}
+        <li class="page-item disabled"><a class="page-link" href="#"><span>&laquo;</span></a></li>
+    {% endif %}
+
+    {% for i in gists.paginator.page_range %}
+      {% if gists.number == i %}
+        <li class="page-item active">
+            <a href="?page"  class="page-link bg-dark">  <span>{{ i }} <span class="sr-only">(current)</span></span></a></li>
+      {% else %}
+        <li class="page-item"><a class="page-link bg-dark" href="?page={{ i }}" style="color: white">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if gists.has_next %}
+      <li class="page-item">
+          <a class="page-link" href="?page={{  gists.next_page_number }}">&raquo;</a>
+      </li>
+    {% else %}
+      <li class="page-item page-link disabled">
+          <span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+
+
+    </div>
+
+
+    </div>
+{% endblock %}
